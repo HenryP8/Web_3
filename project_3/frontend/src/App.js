@@ -7,9 +7,11 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       info: [],
-      value: "test",
+      name: "name",
+      email: "email@email.com",
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
     this.sendInfo = this.sendInfo.bind(this);
   }
 
@@ -25,7 +27,7 @@ export default class App extends React.Component {
   }
 
   sendInfo() {
-    axios.post('/api/users/', {name : this.state.value, email : this.state.value + "@email.com"})
+    axios.post('/api/users/', {name : this.state.name, email : this.state.email})
     .then(res => this.getData())
     .catch((err) => console.log(err))
   }
@@ -35,8 +37,12 @@ export default class App extends React.Component {
     .then(res => this.getData())
   }
 
-  handleChange(event) {
-    this.setState({ value : event.target.value });
+  handleNameChange(event) {
+    this.setState({ name : event.target.value });
+  }
+
+  handleEmailChange(event) {
+    this.setState({ email : event.target.value });
   }
 
   render() {
@@ -53,7 +59,11 @@ export default class App extends React.Component {
       <form onSubmit={this.sendInfo}>
         <label>
           Name:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
+          <input type="text" value={this.state.name} onChange={this.handleNameChange} />
+        </label>
+        <label>
+          Email:
+          <input type="email" value={this.state.email} onChange={this.handleEmailChange} />
         </label>
         <input type="submit" value="Submit" />
       </form>
