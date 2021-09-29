@@ -7,7 +7,10 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       info: [],
-    }
+      value: "test",
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.sendInfo = this.sendInfo.bind(this);
   }
 
   componentDidMount() {
@@ -21,8 +24,8 @@ export default class App extends React.Component {
     }).catch((err) => console.log(err))
   }
 
-  sendInfo(event) {
-    axios.post('/api/users/', {name : event.target.value, email : event.target.value + "@email.com"})
+  sendInfo() {
+    axios.post('/api/users/', {name : this.state.value, email : this.state.value + "@email.com"})
     .then(res => this.getData())
     .catch((err) => console.log(err))
   }
@@ -30,6 +33,10 @@ export default class App extends React.Component {
   handleDelete = (item) => {
     axios.delete(`/api/users/${item.id}/`)
     .then(res => this.getData())
+  }
+
+  handleChange(event) {
+    this.setState({ value : event.target.value });
   }
 
   render() {
@@ -43,10 +50,10 @@ export default class App extends React.Component {
           </li>
           ))}
       </ul>
-      <form>
+      <form onSubmit={this.sendInfo}>
         <label>
           Name:
-          <input type="text" onChange={this.sendInfo} />
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
         <input type="submit" value="Submit" />
       </form>
