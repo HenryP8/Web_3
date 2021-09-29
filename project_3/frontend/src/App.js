@@ -21,8 +21,8 @@ export default class App extends React.Component {
     }).catch((err) => console.log(err))
   }
 
-  sendInfo() {
-    axios.post('/api/users/', {name : "Henry", email : "email@email.com"})
+  sendInfo(event) {
+    axios.post('/api/users/', {name : event.target.value, email : event.target.value + "@email.com"})
     .then(res => this.getData())
     .catch((err) => console.log(err))
   }
@@ -43,7 +43,13 @@ export default class App extends React.Component {
           </li>
           ))}
       </ul>
-      <button onClick={this.sendInfo}>Send</button>
+      <form>
+        <label>
+          Name:
+          <input type="text" onChange={this.sendInfo} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
       </div>
     )
   }
